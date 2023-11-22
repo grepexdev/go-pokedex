@@ -22,14 +22,14 @@ func startREPL() {
 			continue
 		}
 
-		command := cleaned[0]
+		commandName := cleaned[0]
+
+		availableCommands := getCommands()
+
+		command, ok := availableCommands[commandName]
+
 		switch command {
 		case "help":
-			fmt.Println("Welcome to the Pokedex help menu!")
-			fmt.Println("Here are your available commands:")
-			fmt.Println(" - help")
-			fmt.Println(" - exit")
-			fmt.Println("")
 		case "exit":
 			os.Exit(0)
 		default:
@@ -39,7 +39,24 @@ func startREPL() {
 }
 
 type cliCommand struct {
-	
+	name        string
+	description string
+	callback    func()
+}
+
+func getCommands() map[string]cliCommand {
+	return map[string]cliCommand{
+		"help": {
+			name:        "help",
+			description: "Prints the help menu",
+			callback:    callbackHelp,
+		},
+		"exit": {
+			name:        "exit",
+			description: "exits the REPL",
+			callback:    callbackExit,
+		},
+	}
 }
 
 func cleanInput(str string) []string {
