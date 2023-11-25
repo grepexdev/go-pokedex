@@ -27,14 +27,11 @@ func startREPL() {
 		availableCommands := getCommands()
 
 		command, ok := availableCommands[commandName]
-
-		switch command {
-		case "help":
-		case "exit":
-			os.Exit(0)
-		default:
+		if !ok {
 			fmt.Println("invalid command")
+			continue
 		}
+		command.callback()
 	}
 }
 
