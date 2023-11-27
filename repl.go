@@ -11,7 +11,7 @@ func startREPL() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		fmt.Print(" >>> ")
+		fmt.Print("pokedex > ")
 
 		scanner.Scan()
 		text := scanner.Text()
@@ -45,13 +45,22 @@ func getCommands() map[string]cliCommand {
 	return map[string]cliCommand{
 		"help": {
 			name:        "help",
-			description: "Prints the help menu",
+			description: "Prints the help menu.",
 			callback:    callbackHelp,
 		},
 		"exit": {
 			name:        "exit",
-			description: "exits the REPL",
+			description: "Exits the application.",
 			callback:    callbackExit,
+		},
+		"map": {
+			name:        "map",
+			description: "Displays the names of 20 location areas in the Pokemon world. Each subsequent call will display the next 20 locations.",
+			callback:    callbackMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Similar to the map command but it dispays the previous 20 locations. Basically, it's a way to go back.",
 		},
 	}
 }
