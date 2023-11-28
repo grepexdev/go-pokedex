@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func callbackMap() {
+func callbackMap() error {
 	fmt.Println("map command placeholder")
 
 	res, err := http.Get("https://pokeapi.co/api/v2/location-area")
@@ -23,4 +23,5 @@ func callbackMap() {
 		log.Fatal(err)
 	}
 	fmt.Printf("%s", body)
+  return nil
 }
