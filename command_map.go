@@ -2,26 +2,22 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"log"
-	"net/http"
+
+	"github.com/grepexdev/go-pokedex/internal/pokeapi"
 )
 
 func callbackMap() error {
-	fmt.Println("map command placeholder")
+	pokeapiClient := pokeapi.NewClient()
 
-	res, err := http.Get("https://pokeapi.co/api/v2/location-area")
+	resp, err := pokeapiClient.ListLocationAreasResp()
 	if err != nil {
 		log.Fatal(err)
 	}
-	body, err := io.ReadAll(res.Body)
-	res.Body.Close()
-	if res.StatusCode > 299 {
-		log.Fatalf("Reponse failed with status code: %d and\nbody: %s\n", res.StatusCode, body)
+
+	fmt.Println("Location areas: ")
+	for _, area := range resp.Results {
+		fmt.Printf(" - %s\n", area.Name)
 	}
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("%s", body)
-  return nil
+	return nil
 }
