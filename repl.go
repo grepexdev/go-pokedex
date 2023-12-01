@@ -17,6 +17,10 @@ func startREPL(cfg *config) {
 		text := scanner.Text()
 
 		cleaned := cleanInput(text)
+		args := []string{}
+		if len(cleaned) > 1 {
+			args = cleaned[1:]
+		}
 
 		if len(cleaned) == 0 {
 			continue
@@ -31,7 +35,7 @@ func startREPL(cfg *config) {
 			fmt.Println("invalid command")
 			continue
 		}
-		err := command.callback(cfg)
+		err := command.callback(cfg, args...)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -41,7 +45,7 @@ func startREPL(cfg *config) {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, ...string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -65,6 +69,11 @@ func getCommands() map[string]cliCommand {
 			name:        "mapb",
 			description: "Similar to the map command but it dispays the previous 20 locations. Basically, it's a way to go back.",
 			callback:    callbackMapb,
+		},
+		"explore": {
+			name:        "explore",
+			description: "explore {location_area}",
+			callback:    callbackExplore,
 		},
 	}
 }
