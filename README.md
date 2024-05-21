@@ -1,5 +1,3 @@
 # go-pokedex
 
-## Read
-
-Contributing
+## Contributing
